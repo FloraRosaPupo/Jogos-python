@@ -1,73 +1,43 @@
-def menu():
-    continuar=1
-    while continuar:
-        continuar = int(input("0. Sair \n"+
-                              "1. Jogar novamente\n"))
-        if continuar:
-            jogar()
-        else:
-            print("Saindo...")
+"""Jogo da velha com validação de jogadas e detecção de empate."""
+board = [[0]*3 for _ in range(3)]
 
-def jogar():
-    jogada=0
-
-    while ganhou() == 0:
-        print("\nJogador ", jogada%2 + 1)
-        exibe()
-        linha  = int(input("\nLinha :"))
-        coluna = int(input("Coluna:"))
-
-        if board[linha-1][coluna-1] == 0:
-            if(jogada%2+1)==1:
-                board[linha-1][coluna-1]=1
-            else:
-                board[linha-1][coluna-1]=-1
-        else:
-            print("Nao esta vazio")
-            jogada -=1
-
-        if ganhou():
-            print("Jogador ",jogada%2 + 1," ganhou apos ", jogada+1," rodadas")
-
-        jogada +=1
-    
-def ganhou():
-    #checando linhas
-    for i in range(3):
-        soma = board[i][0]+board[i][1]+board[i][2]
-        if soma==3 or soma ==-3:
-            return 1
-
-     #checando colunas
-    for i in range(3):
-        soma = board[0][i]+board[1][i]+board[2][i]
-        if soma==3 or soma ==-3:
-            return 1
-
-    #checando diagonais
-    diagonal1 = board[0][0]+board[1][1]+board[2][2]
-    diagonal2 = board[0][2]+board[1][1]+board[2][0]
-    if diagonal1==3 or diagonal1==-3 or diagonal2==3 or diagonal2==-3:
-        return 1
-
+def vencedor(tabuleiro):
+    linhas = list(tabuleiro) + [list(coluna) for coluna in zip(*tabuleiro)]
+    linhas += [[tabuleiro[i][i] for i in range(3)], [tabuleiro[i][2-i] for i in range(3)]]
+    for linha in linhas:
+        if linha[0] != 0 and all(valor==linha[0] for valor in linha):
+            return linha[0]
     return 0
 
+def ganhou():
+    return int(vencedor(board)!=0)
+
+def jogar():
+    global board
+    board = [[0]*3 for _ in range(3)]
+    jogadas = 0
+    while jogadas<9 and not ganhou():
+        exibe()
+        print("Jogador", jogadas%2+1)
+        try:
+            linha=int(input("Linha (1-3): "))-1
+            coluna=int(input("Coluna (1-3): "))-1
+        except ValueError:
+            print("Informe números de 1 a 3.")
+            continue
+        if not (0<=linha<3 and 0<=coluna<3):
+            print("Posição fora do tabuleiro.")
+            continue
+        if board[linha][coluna]!=0:
+            print("Posição ocupada.")
+            continue
+        board[linha][coluna]=1 if jogadas%2==0 else -1
+        jogadas+=1
+    exibe()
+    print("Empate!" if not ganhou() else f"Jogador {(jogadas-1)%2+1} ganhou!")
+
 def exibe():
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] == 0:
-                print(" _ ", end=' ')
-            elif board[i][j] == 1:
-                print(" X ", end=' ')
-            elif board[i][j] == -1:
-                print(" O ", end=' ')
+    for linha in board:
+        print(' '.join({0:'_',1:'X',-1:'O'}[valor] for valor in linha))
 
-        print()
-                
-
-board= [ [0,0,0],
-         [0,0,0],
-         [0,0,0] ]
-
-if(__name__== "__main__"):
-    jogar()
+if __name__=='__main__': jogar()

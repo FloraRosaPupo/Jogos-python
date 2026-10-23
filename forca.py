@@ -1,3 +1,4 @@
+from pathlib import Path
 import random
 
 
@@ -140,7 +141,7 @@ def imprime_mensagem_abertura():
     print("*********************************")
 
 def carrega_palavra_secreta():
-    arquivo = open("palavras.txt", "r")
+    arquivo = open(Path(__file__).with_name("palavras.txt"), "r", encoding="utf-8")
     palavras = []
 
     for linha in arquivo:

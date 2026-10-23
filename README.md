@@ -1,4 +1,29 @@
-# Jogos em Python
+# Jogos de Terminal em Python
+
+## Descrição
+
+Coleção de jogos de terminal em Python: adivinhação, forca e jogo da velha. Um menu permite alternar entre partidas; as regras e a navegação têm testes automatizados sem dependências externas.
+
+## Stack e bibliotecas
+
+Python padrão e unittest.
+
+## Funcionalidades
+
+- Adivinhação.
+- Forca.
+- Jogo da velha e menu.
+
+## Licença
+
+Não há uma licença de distribuição definida para este repositório. Nenhuma licença MIT, Apache ou equivalente é concedida por este README. As atribuições e os direitos dos materiais de terceiros permanecem preservados.
+
+## Validação e limites
+
+Vencedor, empate, limites do tabuleiro e navegação. Execução interativa complementar pelo terminal.
+
+## Execução e testes
+
 Jogos de terminal: forca, adivinhação e jogo da velha. Requer Python 3.11+; não há dependências externas.
 
 ```sh
@@ -6,22 +31,6 @@ python jogos.py
 python -m unittest discover -s tests -v
 ```
 `palavras.txt` contém o vocabulário da forca. O menu permite várias partidas sem recursão; o jogo da velha valida coordenadas e encerra empates. A CI executa os testes de regras e menu.
-
-## Licença
-Não há licença de distribuição definida neste repositório.
-
-
-## Stack e bibliotecas
-
-Python padrão e unittest.
-
-
-## Funcionalidades
-
-- Adivinhação.
-- forca.
-- jogo da velha e menu.
-
 
 ## Organização e manutenção
 
